@@ -1,4 +1,5 @@
 ﻿using DishesAPI.Entities;
+using DishesMinimalApi.Exceptions;
 using DishesMinimalApi.Extensions.EndpointsGroupers;
 using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;
@@ -28,7 +29,7 @@ public static partial class Dishes
     {
         var dishToUpdate = await dishRepository.GetDishByIdAsync(id);
         if(dishToUpdate == null) 
-            return Results.NotFound(ExceptionMessages.EntityNotFound);
+            throw new CustomNotFoundException(Messages.EntityNotFound);
 
         dishToUpdate.Name = updateDishDto.Name;
 

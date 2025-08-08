@@ -7,6 +7,8 @@ public static class WebApplicationExtensions
 {
     public static WebApplication ConfigureWebApplication(this WebApplication app)
     {
+        app.UseExceptionHandler(_ => { });
+
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -21,7 +23,7 @@ public static class WebApplicationExtensions
         app.UseRateLimiter();
 
         var baseGroup = app.MapGroup("/api")
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError); 
 
         app.MapEndpoints(baseGroup);

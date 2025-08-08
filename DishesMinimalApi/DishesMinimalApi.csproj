@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.8">
@@ -17,18 +19,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Resources\ExceptionMessages.Designer.cs">
+    <Compile Update="Resources\Messages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>ExceptionMessages.resx</DependentUpon>
+      <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Resources\ExceptionMessages.resx">
+    <EmbeddedResource Update="Resources\Messages.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ExceptionMessages.Designer.cs</LastGenOutput>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -1,4 +1,5 @@
-﻿using DishesMinimalApi.Extensions.EndpointsGroupers;
+﻿using DishesMinimalApi.Exceptions;
+using DishesMinimalApi.Extensions.EndpointsGroupers;
 using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;
 using DishesMinimalApi.Shared.Abstractions;
@@ -30,7 +31,7 @@ public static partial class Dishes
     {
         var dishWithIngredientsDto = await dishRepository.GetDishWithIngredientsDtoByIdAsync(id);
         if (dishWithIngredientsDto is null)
-            return Results.NotFound(ExceptionMessages.EntityNotFound);
+            throw new CustomNotFoundException(Messages.EntityNotFound);
 
         return Results.Ok(dishWithIngredientsDto);
     }

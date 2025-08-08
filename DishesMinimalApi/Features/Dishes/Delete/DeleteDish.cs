@@ -1,4 +1,5 @@
-﻿using DishesMinimalApi.Extensions.EndpointsGroupers;
+﻿using DishesMinimalApi.Exceptions;
+using DishesMinimalApi.Extensions.EndpointsGroupers;
 using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;
 using DishesMinimalApi.Shared.Abstractions;
@@ -24,8 +25,8 @@ public static partial class Dishes
     public static async Task<IResult> DeleteDishHandler(Guid id, IDishRepository dishRepository) 
     {
         var dishToDelete = await dishRepository.GetDishByIdAsync(id);
-        if(dishToDelete == null) 
-            return Results.NotFound(ExceptionMessages.EntityNotFound);
+        if(dishToDelete == null)
+            throw new CustomNotFoundException(Messages.EntityNotFound);
 
         dishRepository.Delete(dishToDelete);
         await dishRepository.SaveChangesAsync();

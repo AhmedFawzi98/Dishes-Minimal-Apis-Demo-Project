@@ -22,14 +22,14 @@ namespace DishesMinimalApi.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class ExceptionMessages {
+    public class Messages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ExceptionMessages() {
+        internal Messages() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace DishesMinimalApi.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DishesMinimalApi.Resources.ExceptionMessages", typeof(ExceptionMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("DishesMinimalApi.Resources.Messages", typeof(Messages).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,24 @@ namespace DishesMinimalApi.Resources {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dish name length can&apos;t exceed 20 characters..
+        /// </summary>
+        public static string DishNameExceedMaxLength {
+            get {
+                return ResourceManager.GetString("DishNameExceedMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dish name can&apos;t be null or empty..
+        /// </summary>
+        public static string DishNameNullOrEmpty {
+            get {
+                return ResourceManager.GetString("DishNameNullOrEmpty", resourceCulture);
             }
         }
         

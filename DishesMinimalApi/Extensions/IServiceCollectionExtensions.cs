@@ -3,9 +3,12 @@ using DishesMinimalApi.HostedServices;
 using DishesMinimalApi.Infrastructure.Constants;
 using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Infrastructure.Seeders;
+using DishesMinimalApi.Middlewares;
 using DishesMinimalApi.Shared.Constants;
+using FluentValidation;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using System.Threading.RateLimiting;
 
 namespace DishesMinimalApi.Extensions;
@@ -14,9 +17,11 @@ public static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddApplicationServices(configuration);
+        services.AddOpenApi();
 
         services.AddEndpoints();
+
+        services.AddApplicationServices(configuration);
 
         services.AddRateLimiter(limiterOptions =>
         {
@@ -38,12 +43,15 @@ public static class IServiceCollectionExtensions
             });
         });
 
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+
         return services;
     }
     private static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
     {
-        //presentation
-        services.AddOpenApi();
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+        ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Continue;
+        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Continue;
 
         //data access
         services.AddDbContext<DishesDbContext>(options =>
