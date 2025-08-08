@@ -17,6 +17,7 @@ public static partial class Dishes
         {
             var group = DishesGrouper.Get(app);
             group.MapPost("", CreateDishHandler)
+                .Produces<DishCreatedDto>(StatusCodes.Status200OK)
                 .WithName(EndPointsNames.CreateDish);
         }
     }

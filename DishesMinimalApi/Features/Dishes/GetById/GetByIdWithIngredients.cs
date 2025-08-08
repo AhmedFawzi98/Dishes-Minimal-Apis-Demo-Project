@@ -3,7 +3,9 @@ using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;
 using DishesMinimalApi.Shared.Abstractions;
 using DishesMinimalApi.Shared.Constants;
+using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
+using static DishesMinimalApi.Features.Dishes.GetAll.Dishes;
 
 namespace DishesMinimalApi.Features.Dishes.GetById;
 
@@ -18,6 +20,8 @@ public static partial class Dishes
         {
             var group = DishesGrouper.Get(app);
             group.MapGet("/{id:guid}", GetDishByIdWithIngredients)
+               .Produces<DishWithIngredientsDto>(StatusCodes.Status200OK)
+               .ProducesProblem(StatusCodes.Status404NotFound)
                .WithName(EndPointsNames.GetDishById);
         }
     }
