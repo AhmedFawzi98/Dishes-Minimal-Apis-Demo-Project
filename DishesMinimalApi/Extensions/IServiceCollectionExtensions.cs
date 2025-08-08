@@ -22,17 +22,17 @@ public static class IServiceCollectionExtensions
         {
             limiterOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            limiterOptions.AddPolicy(RateLimitingConstants.SlidingWindowPolicy, httpContext =>
+            limiterOptions.AddPolicy(RateLimitingPolicies.SlidingWindowPolicy, httpContext =>
             {
                 var ipAddress = httpContext.Connection.RemoteIpAddress?.ToString() ?? "unkown";
                 return RateLimitPartition.GetSlidingWindowLimiter(
                                 partitionKey: ipAddress,
                                 factory: partition => new SlidingWindowRateLimiterOptions
                                 {
-                                    PermitLimit = 3,
+                                    PermitLimit = 15,
                                     Window = TimeSpan.FromSeconds(15),
                                     SegmentsPerWindow = 3,
-                                    QueueLimit = 0,
+                                    QueueLimit = 3,
                                     QueueProcessingOrder = QueueProcessingOrder.OldestFirst
                                 });
             });

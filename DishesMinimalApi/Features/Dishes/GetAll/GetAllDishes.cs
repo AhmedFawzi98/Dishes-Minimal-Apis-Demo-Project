@@ -1,10 +1,11 @@
-﻿using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
+﻿using DishesMinimalApi.Extensions.EndpointsGroupers;
+using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Shared.Abstractions;
 using DishesMinimalApi.Shared.Constants;
 
 namespace DishesMinimalApi.Features.Dishes.GetAll;
 
-public static class GetAllDishes
+public static partial class Dishes
 {
     public record DishDto(Guid Id, string Name);
 
@@ -12,14 +13,15 @@ public static class GetAllDishes
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/dishes", GetAllDishesHandler)
-                .RequireRateLimiting(RateLimitingConstants.SlidingWindowPolicy);
+            var group = DishesGrouper.Get(app);
+            group.MapGet("", GetAllDishesHandler)
+                .WithName(EndPointsNames.GetAllDishes);
         }
     }
 
     public static async Task<IResult> GetAllDishesHandler(IDishRepository dishRepository) 
     {
-        var dishesDtos = await dishRepository.GetAllDishes();
+        var dishesDtos = await dishRepository.GetAllDishDtosAsync();
         return Results.Ok(dishesDtos);
     }
 }

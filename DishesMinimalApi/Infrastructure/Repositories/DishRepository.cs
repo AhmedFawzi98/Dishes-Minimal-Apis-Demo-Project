@@ -1,17 +1,14 @@
 ﻿using DishesAPI.DbContexts;
 using DishesAPI.Entities;
-using DishesMinimalApi.Features.Dishes.GetById;
-using DishesMinimalApi.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using static DishesMinimalApi.Features.Dishes.GetAll.GetAllDishes;
-using static DishesMinimalApi.Features.Dishes.GetById.GetByIdWithIngredients;
+using static DishesMinimalApi.Features.Dishes.GetAll.Dishes;
+using static DishesMinimalApi.Features.Dishes.GetById.Dishes;
 
 namespace DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 
 public class DishRepository(DishesDbContext context) : IDishRepository
 {
-    public async Task<IEnumerable<DishDto>> GetAllDishes()
+    public async Task<IEnumerable<DishDto>> GetAllDishDtosAsync()
     {
         var dishesDtos = await context
             .Dishes
@@ -21,7 +18,7 @@ public class DishRepository(DishesDbContext context) : IDishRepository
         return dishesDtos;
     }
 
-    public async Task<DishWithIngredientsDto> GetDishById(Guid id)
+    public async Task<DishWithIngredientsDto> GetDishWithIngredientsDtoByIdAsync(Guid id)
     {
         var dishWithIngredients = await context
            .Dishes
@@ -42,5 +39,25 @@ public class DishRepository(DishesDbContext context) : IDishRepository
         var dishWithIngredientsDto = new DishWithIngredientsDto(dishWithIngredients.Id, dishWithIngredients.Name, DishIngredientsDtos);
 
         return dishWithIngredientsDto;
+    }
+
+    public void Add(Dish dish)
+    {
+        context.Dishes.Add(dish);
+    }
+
+    public async Task<Dish> GetDishByIdAsync(Guid id)
+    {
+        return await context.Dishes.FindAsync(id);
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await context.SaveChangesAsync();
+    }
+
+    public void Delete(Dish dishToDelete)
+    {
+       context.Dishes.Remove(dishToDelete);
     }
 }

@@ -1,10 +1,13 @@
-﻿using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
+﻿using DishesMinimalApi.Extensions.EndpointsGroupers;
+using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;
 using DishesMinimalApi.Shared.Abstractions;
+using DishesMinimalApi.Shared.Constants;
+using System.Text.RegularExpressions;
 
 namespace DishesMinimalApi.Features.Dishes.GetById;
 
-public static class GetByIdWithIngredients
+public static partial class Dishes
 {
     public record DishWithIngredientsDto(Guid Id, string Name, List<DishIngredientDto> Ingredients);
     public record DishIngredientDto(Guid Id, string Name);
@@ -13,13 +16,15 @@ public static class GetByIdWithIngredients
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/dishes/{id:guid}", GetDishByIdWithIngredients);
+            var group = DishesGrouper.Get(app);
+            group.MapGet("/{id:guid}", GetDishByIdWithIngredients)
+               .WithName(EndPointsNames.GetDishById);
         }
     }
 
     public static async Task<IResult> GetDishByIdWithIngredients(Guid id, IDishRepository dishRepository) 
     {
-        var dishWithIngredientsDto = await dishRepository.GetDishById(id);
+        var dishWithIngredientsDto = await dishRepository.GetDishWithIngredientsDtoByIdAsync(id);
         if (dishWithIngredientsDto is null)
             return Results.NotFound(ExceptionMessages.EntityNotFound);
 
