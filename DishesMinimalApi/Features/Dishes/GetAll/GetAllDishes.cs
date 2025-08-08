@@ -1,5 +1,6 @@
 ﻿using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Shared.Abstractions;
+using DishesMinimalApi.Shared.Constants;
 
 namespace DishesMinimalApi.Features.Dishes.GetAll;
 
@@ -11,7 +12,8 @@ public static class GetAllDishes
     {
         public void MapEndpoint(IEndpointRouteBuilder app)
         {
-            app.MapGet("/dishes", GetAllDishesHandler);
+            app.MapGet("/dishes", GetAllDishesHandler)
+                .RequireRateLimiting(RateLimitingConstants.SlidingWindowPolicy);
         }
     }
 
