@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DishesMinimalApi.EndpointFilters;
+using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 
 namespace DishesMinimalApi.Extensions;
@@ -23,6 +24,9 @@ public static class WebApplicationExtensions
         app.UseRateLimiter();
 
         var baseGroup = app.MapGroup("/api")
+            .AddEndpointFilter<ApiKeyFilter>()
+            .AddEndpointFilter<LoggingFilter>()
+            .AddEndpointFilter<RequestTimingFilter>()
             .ProducesValidationProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError); 
 

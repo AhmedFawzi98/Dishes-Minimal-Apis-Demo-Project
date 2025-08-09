@@ -1,4 +1,5 @@
-﻿using DishesMinimalApi.Exceptions;
+﻿using DishesMinimalApi.EndpointFilters;
+using DishesMinimalApi.Exceptions;
 using DishesMinimalApi.Extensions.EndpointsGroupers;
 using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;

@@ -1,4 +1,5 @@
-﻿using DishesMinimalApi.Shared.Constants;
+﻿using DishesMinimalApi.EndpointFilters;
+using DishesMinimalApi.Shared.Constants;
 
 namespace DishesMinimalApi.Extensions.EndpointsGroupers;
 public static class DishesGrouper
