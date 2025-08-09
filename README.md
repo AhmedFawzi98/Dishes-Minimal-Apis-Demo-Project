@@ -6,7 +6,7 @@ demo purpose is to explore Minimal API capabilities and differences in implement
 ## 📜 Project Brief
 a .NET 9 Minimal APIs built around simple CRUD for managing **"dishes"**, demonstrating:
 
-- Organization techniques for Minimal APIs and dynamic endpoint registration/mapping
+- Organization techniques for Minimal APIs and dynamic endpoint registration/mapping using abstractions (IEndpoint interface) and extension methods to add all endpoints implmnetations and map them.
 - Endpoint filters for cross-cutting concerns:
   - API key validation
   - Logging
@@ -53,8 +53,8 @@ Api-Key: "L7TxLl9ZPMHWCBgdrzg0ysaYJ5LSfKwB"
 ## 📄 API Documentation
 Scalar UI URL:{{baseAddress}}/docs/{{version}}
 Examples:
-- v1 → [https://localhost:7124/docs/v1] (https://localhost:7124/docs/v1)  
-- v2 → [https://localhost:7124/docs/v2] (https://localhost:7124/docs/v2)
+- v1 → (https://localhost:7124/docs/v1)  
+- v2 → (https://localhost:7124/docs/v2)
 
 ---
 
