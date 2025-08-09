@@ -1,4 +1,6 @@
-﻿using DishesMinimalApi.EndpointFilters;
+﻿using Asp.Versioning;
+using Asp.Versioning.ApiExplorer;
+using DishesMinimalApi.EndpointFilters;
 using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 
@@ -10,12 +12,16 @@ public static class WebApplicationExtensions
     {
         app.UseExceptionHandler(_ => { });
 
-        if (app.Environment.IsDevelopment())
+        app.MapOpenApi();
+
+        var versionsGroupNames = new[] { "v1", "v2" };
+
+        foreach (var versionGroupName in versionsGroupNames)
         {
-            app.MapOpenApi();
-            app.MapScalarApiReference("docs", options =>
+            app.MapScalarApiReference($"/docs/{versionGroupName}", options =>
             {
-                options.WithOpenApiRoutePattern("/openapi/v1.json");
+                options.WithOpenApiRoutePattern($"/openapi/{versionGroupName}.json")
+                       .WithTitle($"API {versionGroupName}");
             });
         }
 
@@ -23,7 +29,15 @@ public static class WebApplicationExtensions
 
         app.UseRateLimiter();
 
-        var baseGroup = app.MapGroup("/api")
+        var versionSet = app.NewApiVersionSet()
+          .HasApiVersion(new ApiVersion(1))
+          .HasApiVersion(new ApiVersion(2))
+          .ReportApiVersions()
+          .Build();
+
+
+        var baseGroup = app.MapGroup("/api/v{version:apiversion}")
+            .WithApiVersionSet(versionSet)
             .AddEndpointFilter<ApiKeyFilter>()
             .AddEndpointFilter<LoggingFilter>()
             .AddEndpointFilter<RequestTimingFilter>()

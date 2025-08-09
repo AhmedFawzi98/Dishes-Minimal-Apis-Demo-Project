@@ -1,17 +1,17 @@
-﻿using DishesAPI.Entities;
-using DishesMinimalApi.Exceptions;
+﻿using DishesMinimalApi.Exceptions;
 using DishesMinimalApi.Extensions.EndpointsGroupers;
+using DishesMinimalApi.Features.Dishes.Documentation;
 using DishesMinimalApi.Infrastructure.Repositories.Abstractions;
 using DishesMinimalApi.Resources;
 using DishesMinimalApi.Shared.Abstractions;
 using DishesMinimalApi.Shared.Constants;
-using static DishesMinimalApi.Features.Dishes.GetById.Dishes;
+using System.ComponentModel;
 
 namespace DishesMinimalApi.Features.Dishes.Update;
 
 public static partial class Dishes
 {
-    public record UpdateDishDto(string Name);
+    public record UpdateDishDto([Description(DishesDocumentationConstants.Update.UpdateDishDto_Name_Description)] string Name);
 
     public class UpdateDishEndpoint : IEndpoint
     {
@@ -21,11 +21,13 @@ public static partial class Dishes
             group.MapPatch("/{id:guid}", UpdateDishHandler)
                 .Produces(StatusCodes.Status204NoContent)
                 .ProducesProblem(StatusCodes.Status404NotFound)
-                .WithName(EndPointsNames.UpdateDish);
+                .WithName(EndPointsNames.UpdateDish)
+                .WithSummary(DishesDocumentationConstants.Update.EndPoint_Summary)
+                .WithDescription(DishesDocumentationConstants.Update.EndPoint_Description);
         }
     }
 
-    public static async Task<IResult> UpdateDishHandler(Guid id, UpdateDishDto updateDishDto, IDishRepository dishRepository) 
+    public static async Task<IResult> UpdateDishHandler([Description(DishesDocumentationConstants.Update.Parameter_Id_Description)] Guid id, UpdateDishDto updateDishDto, IDishRepository dishRepository) 
     {
         var dishToUpdate = await dishRepository.GetDishByIdAsync(id);
         if(dishToUpdate == null) 

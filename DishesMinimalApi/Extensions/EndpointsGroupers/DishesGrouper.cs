@@ -1,4 +1,4 @@
-﻿using DishesMinimalApi.EndpointFilters;
+﻿using Asp.Versioning;
 using DishesMinimalApi.Shared.Constants;
 
 namespace DishesMinimalApi.Extensions.EndpointsGroupers;
